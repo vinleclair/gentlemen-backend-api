@@ -290,3 +290,6 @@ tools
 *.sw*
 
 .DS_Store
+
+# SQLite DB file
+*.db
