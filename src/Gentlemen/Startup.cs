@@ -34,7 +34,7 @@ namespace Gentlemen
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(DBContextTransactionPipelineBehavior<,>));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddLocalization(x => x.ResourcesPath = "Resources");
-
+            
             var connectionString = _config.GetValue<string>("ASPNETCORE_Gentlemen_ConnectionString") ??
                                    DEFAULT_DATABASE_CONNECTIONSTRING;
             var databaseProvider = _config.GetValue<string>("ASPNETCORE_Gentlemen_DatabaseProvider");
@@ -54,7 +54,18 @@ namespace Gentlemen
             });
 
             //TODO Add swagger gen
-
+            
+            services.AddCors(options =>
+            {
+                options.AddPolicy("VueCorsPolicy", builder =>
+                {
+                    builder
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .WithOrigins("http://localhost:8080");
+                });
+            });
+            
             services.AddMvc(opt =>
                 {
                     opt.Conventions.Add(new GroupByApiRootConvention());
@@ -72,7 +83,9 @@ namespace Gentlemen
             app.UseMvc();
 
             app.UseMiddleware<ErrorHandlingMiddleware>();
-
+            
+            app.UseCors("VueCorsPolicy");
+            
             app.ApplicationServices.GetRequiredService<GentlemenContext>().Database.EnsureCreated();
         }
     }
