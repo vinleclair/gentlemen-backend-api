@@ -5,11 +5,11 @@ using Gentlemen.Infrastructure;
 using Gentlemen.Infrastructure.Errors;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Gentlemen
 {
@@ -65,8 +65,10 @@ namespace Gentlemen
                 .AddFluentValidation(cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup>(); });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app,  ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddSerilogLogging();
+            
             app.UseMvc();
 
             app.UseMiddleware<ErrorHandlingMiddleware>();
