@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace Gentlemen.Features.Appointments
 {
     [Route("appointments")]
-    public class ArticlesController : Controller
+    public class AppointmentsController : Controller
     {
         private readonly IMediator _mediator;
 
-        public ArticlesController(IMediator mediator)
+        public AppointmentsController(IMediator mediator)
         {
             _mediator = mediator;
         }
