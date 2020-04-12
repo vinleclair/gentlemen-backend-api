@@ -34,6 +34,7 @@ namespace Gentlemen
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(DBContextTransactionPipelineBehavior<,>));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddLocalization(x => x.ResourcesPath = "Resources");
+            services.AddCors();
             
             var connectionString = _config.GetValue<string>("ASPNETCORE_Gentlemen_ConnectionString") ??
                                    DEFAULT_DATABASE_CONNECTIONSTRING;
@@ -54,18 +55,7 @@ namespace Gentlemen
             });
 
             //TODO Add swagger gen
-            
-            services.AddCors(options =>
-            {
-                options.AddPolicy("VueCorsPolicy", builder =>
-                {
-                    builder
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .WithOrigins("http://localhost:8080");
-                });
-            });
-            
+
             services.AddMvc(opt =>
                 {
                     opt.Conventions.Add(new GroupByApiRootConvention());
@@ -78,13 +68,24 @@ namespace Gentlemen
 
         public void Configure(IApplicationBuilder app,  ILoggerFactory loggerFactory)
         {
+            //TODO Remove?
+            app.Use((context, next) =>
+            {
+                context.Response.Headers["Access-Control-Allow-Origin"] = "*";
+                return next.Invoke();
+            });
+            
             loggerFactory.AddSerilogLogging();
             
             app.UseMvc();
 
             app.UseMiddleware<ErrorHandlingMiddleware>();
             
-            app.UseCors("VueCorsPolicy");
+            app.UseCors(builder =>
+                builder
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod());
             
             app.ApplicationServices.GetRequiredService<GentlemenContext>().Database.EnsureCreated();
         }
