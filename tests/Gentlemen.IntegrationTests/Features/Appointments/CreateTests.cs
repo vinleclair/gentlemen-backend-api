@@ -15,7 +15,8 @@ namespace Gentlemen.IntegrationTests.Features.Appointments
                 Appointment = new Create.AppointmentData()
                 {
                     Name = "John",
-                    Email = "john.doe@example.com"
+                    Email = "john.doe@example.com",
+                    BarberId = 5
                 }
             };
 

@@ -9,6 +9,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Gentlemen.Features.Appointments
 {
     public class Create
@@ -18,6 +19,9 @@ namespace Gentlemen.Features.Appointments
             public string Name { get; set; }
 
             public string Email { get; set; }
+            
+            public int BarberId { get; set; }
+
         }
 
         public class AppointmentDataValidator : AbstractValidator<AppointmentData>
@@ -26,6 +30,8 @@ namespace Gentlemen.Features.Appointments
             {
                 RuleFor(x => x.Name).NotNull().NotEmpty();
                 RuleFor(x => x.Email).NotNull().NotEmpty().EmailAddress();
+                RuleFor(x => x.BarberId).NotNull().NotEmpty();
+
             }
         }
 
@@ -57,11 +63,13 @@ namespace Gentlemen.Features.Appointments
                 {
                     Name = message.Appointment.Name,
                     Email = message.Appointment.Email,
+                    BarberId = message.Appointment.BarberId
+
                 };
                 await _context.Appointments.AddAsync(appointment, cancellationToken);
                 
                 await _context.SaveChangesAsync(cancellationToken);
-
+                
                 return new AppointmentEnvelope(appointment);
             }
         }

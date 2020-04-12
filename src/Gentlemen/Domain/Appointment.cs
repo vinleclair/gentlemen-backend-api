@@ -9,5 +9,8 @@ namespace Gentlemen.Domain
         public string Name { get; set; }
 
         public string Email { get; set; }
+        
+        public int BarberId { get; set; }
+
     }
 }
