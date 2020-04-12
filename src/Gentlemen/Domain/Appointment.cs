@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace Gentlemen.Domain
 {
@@ -11,6 +12,8 @@ namespace Gentlemen.Domain
         public string Email { get; set; }
         
         public int BarberId { get; set; }
+        
+        public DateTime ScheduledDate { get; set; }
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,7 +22,10 @@ namespace Gentlemen.Features.Appointments
             public string Email { get; set; }
             
             public int BarberId { get; set; }
-
+            
+            public string Date { get; set; }
+            
+            public string Time { get; set; }
         }
 
         public class AppointmentDataValidator : AbstractValidator<AppointmentData>
@@ -31,6 +35,8 @@ namespace Gentlemen.Features.Appointments
                 RuleFor(x => x.Name).NotNull().NotEmpty();
                 RuleFor(x => x.Email).NotNull().NotEmpty().EmailAddress();
                 RuleFor(x => x.BarberId).NotNull().NotEmpty();
+                RuleFor(x => x.Date).NotNull().NotEmpty();
+                RuleFor(x => x.Time).NotNull().NotEmpty();
 
             }
         }
@@ -58,13 +64,17 @@ namespace Gentlemen.Features.Appointments
             }
 
             public async Task<AppointmentEnvelope> Handle(Command message, CancellationToken cancellationToken)
-            {
+            { 
+                var scheduledDate = DateTime.ParseExact(message.Appointment.Date + " " + message.Appointment.Time,
+                    "yyyy-MM-dd HH:mm",
+                    CultureInfo.InvariantCulture);
+                
                 var appointment = new Appointment()
                 {
                     Name = message.Appointment.Name,
                     Email = message.Appointment.Email,
-                    BarberId = message.Appointment.BarberId
-
+                    BarberId = message.Appointment.BarberId,
+                    ScheduledDate = scheduledDate,
                 };
                 await _context.Appointments.AddAsync(appointment, cancellationToken);
                 
