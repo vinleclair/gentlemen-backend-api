@@ -26,6 +26,8 @@ namespace Gentlemen.Features.Appointments
             public string Date { get; set; }
             
             public string Time { get; set; }
+            
+            public int ServiceId { get; set; }
         }
 
         public class AppointmentDataValidator : AbstractValidator<AppointmentData>
@@ -37,7 +39,7 @@ namespace Gentlemen.Features.Appointments
                 RuleFor(x => x.BarberId).NotNull().NotEmpty();
                 RuleFor(x => x.Date).NotNull().NotEmpty();
                 RuleFor(x => x.Time).NotNull().NotEmpty();
-
+                RuleFor(x => x.ServiceId).NotNull().NotEmpty();
             }
         }
 
@@ -75,6 +77,7 @@ namespace Gentlemen.Features.Appointments
                     Email = message.Appointment.Email,
                     BarberId = message.Appointment.BarberId,
                     ScheduledDate = scheduledDate,
+                    ServiceId = message.Appointment.ServiceId,
                 };
                 await _context.Appointments.AddAsync(appointment, cancellationToken);
                 

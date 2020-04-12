@@ -54,8 +54,6 @@ namespace Gentlemen
                     throw new Exception("Database provider unknown. Please check configuration");
             });
 
-            //TODO Add swagger gen
-
             services.AddMvc(opt =>
                 {
                     opt.Conventions.Add(new GroupByApiRootConvention());
@@ -68,7 +66,7 @@ namespace Gentlemen
 
         public void Configure(IApplicationBuilder app,  ILoggerFactory loggerFactory)
         {
-            //TODO Remove?
+            //TODO Works for now but needs to be changed to something secure
             app.Use((context, next) =>
             {
                 context.Response.Headers["Access-Control-Allow-Origin"] = "*";

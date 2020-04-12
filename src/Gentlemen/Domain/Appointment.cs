@@ -14,6 +14,7 @@ namespace Gentlemen.Domain
         public int BarberId { get; set; }
         
         public DateTime ScheduledDate { get; set; }
-
+        
+        public int ServiceId { get; set; }
     }
 }
