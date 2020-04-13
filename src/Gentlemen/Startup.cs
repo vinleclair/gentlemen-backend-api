@@ -29,7 +29,6 @@ namespace Gentlemen
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
-            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(DBContextTransactionPipelineBehavior<,>));
             services.AddLocalization(x => x.ResourcesPath = "Resources");
             services.AddCors();
             
