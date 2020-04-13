@@ -1,4 +1,4 @@
-﻿using Gentlemen.Domain;
+﻿﻿using Gentlemen.Domain;
 
 namespace Gentlemen.Features.Appointments
 {
