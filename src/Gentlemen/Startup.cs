@@ -73,13 +73,13 @@ namespace Gentlemen
             loggerFactory.AddSerilogLogging();
             
             app.UseMvc();
-            
+
             app.UseCors(builder =>
-                builder
-                    .AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod());
-            
+                    builder
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .WithOrigins("http://localhost:8080"));
+
             app.ApplicationServices.GetRequiredService<GentlemenContext>().Database.EnsureCreated();
         }
     }
