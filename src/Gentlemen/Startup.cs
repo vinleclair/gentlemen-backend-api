@@ -2,10 +2,8 @@ using System;
 using System.Reflection;
 using FluentValidation.AspNetCore;
 using Gentlemen.Infrastructure;
-using Gentlemen.Infrastructure.Errors;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +30,6 @@ namespace Gentlemen
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(DBContextTransactionPipelineBehavior<,>));
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddLocalization(x => x.ResourcesPath = "Resources");
             services.AddCors();
             
@@ -76,8 +73,6 @@ namespace Gentlemen
             loggerFactory.AddSerilogLogging();
             
             app.UseMvc();
-
-            app.UseMiddleware<ErrorHandlingMiddleware>();
             
             app.UseCors(builder =>
                 builder
