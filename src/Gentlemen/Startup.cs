@@ -1,11 +1,9 @@
-using System;
 using System.Reflection;
 using FluentValidation.AspNetCore;
 using Gentlemen.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -15,24 +13,14 @@ namespace Gentlemen
     {
         public const string DEFAULT_DATABASE_CONNECTIONSTRING = "Filename=gentlemen.db";
 
-        private readonly IConfiguration _config;
-
-        public Startup(IConfiguration config)
-        {
-            _config = config;
-        }
-        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
             services.AddCors();
-            
-            var connectionString = _config.GetValue<string>("ASPNETCORE_Gentlemen_ConnectionString") ??
-                                   DEFAULT_DATABASE_CONNECTIONSTRING;
 
             services.AddDbContext<GentlemenContext>(options =>
-                options.UseSqlite(connectionString));
+                options.UseSqlite(DEFAULT_DATABASE_CONNECTIONSTRING));
 
             services.AddMvc(opt =>
             {
