@@ -17,9 +17,9 @@ namespace Gentlemen.Features.Appointments
     {
         public class AppointmentData
         {
-            public string Name { get; set; }
+            public string ClientName { get; set; }
 
-            public string Email { get; set; }
+            public string ClientEmail { get; set; }
             
             public int BarberId { get; set; }
             
@@ -34,8 +34,8 @@ namespace Gentlemen.Features.Appointments
         {
             public AppointmentDataValidator()
             {
-                RuleFor(x => x.Name).NotNull().NotEmpty();
-                RuleFor(x => x.Email).NotNull().NotEmpty().EmailAddress();
+                RuleFor(x => x.ClientName).NotNull().NotEmpty();
+                RuleFor(x => x.ClientEmail).NotNull().NotEmpty().EmailAddress();
                 RuleFor(x => x.BarberId).NotNull().NotEmpty();
                 RuleFor(x => x.Date).NotNull().NotEmpty();
                 RuleFor(x => x.Time).NotNull().NotEmpty();
@@ -73,8 +73,8 @@ namespace Gentlemen.Features.Appointments
                 
                 var appointment = new Appointment()
                 {
-                    Name = message.Appointment.Name,
-                    Email = message.Appointment.Email,
+                    ClientName = message.Appointment.ClientName,
+                    ClientEmail = message.Appointment.ClientEmail,
                     BarberId = message.Appointment.BarberId,
                     ScheduledDate = scheduledDate,
                     ServiceId = message.Appointment.ServiceId,

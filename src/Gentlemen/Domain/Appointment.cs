@@ -7,9 +7,9 @@ namespace Gentlemen.Domain
     {
         [JsonIgnore] public int AppointmentId { get; set; }
 
-        public string Name { get; set; }
+        public string ClientName { get; set; }
 
-        public string Email { get; set; }
+        public string ClientEmail { get; set; }
         
         public int BarberId { get; set; }
         
