@@ -15,6 +15,8 @@ namespace Gentlemen.Infrastructure
         }
 
         public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Barber> Barbers { get; set; }
+
 
         #region Transaction Handling
 
