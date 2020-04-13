@@ -14,8 +14,8 @@ namespace Gentlemen.IntegrationTests.Features.Appointments
             {
                 Appointment = new Create.AppointmentData()
                 {
-                    Name = "John",
-                    Email = "john.doe@example.com",
+                    ClientName = "John",
+                    ClientEmail = "john.doe@example.com",
                     BarberId = 5
                 }
             };
@@ -23,8 +23,8 @@ namespace Gentlemen.IntegrationTests.Features.Appointments
             var appointment = await AppointmentHelpers.CreateAppointment(this, command);
 
             Assert.NotNull(appointment);
-            Assert.AreEqual(appointment.Name, command.Appointment.Name);
-            Assert.AreEqual(appointment.Email, command.Appointment.Email);
+            Assert.AreEqual(appointment.ClientName, command.Appointment.ClientName);
+            Assert.AreEqual(appointment.ClientEmail, command.Appointment.ClientEmail);
         }
     }
 }
