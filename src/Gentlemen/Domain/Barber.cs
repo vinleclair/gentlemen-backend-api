@@ -1,7 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
-
-namespace Gentlemen.Domain
+﻿namespace Gentlemen.Domain
 {
     public class Barber
     {

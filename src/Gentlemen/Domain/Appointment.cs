@@ -5,7 +5,7 @@ namespace Gentlemen.Domain
 {
     public class Appointment
     {
-        [JsonIgnore] public int AppointmentId { get; set; }
+        public int AppointmentId { get; set; }
 
         public string ClientName { get; set; }
 

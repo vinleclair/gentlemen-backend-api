@@ -4,6 +4,7 @@ using Gentlemen.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -11,7 +12,12 @@ namespace Gentlemen
 {
     public class Startup
     {
-        public const string DEFAULT_DATABASE_CONNECTIONSTRING = "Filename=gentlemen.db";
+        private readonly IConfiguration _config;
+
+        public Startup(IConfiguration config)
+        {
+            _config = config;
+        }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -20,7 +26,7 @@ namespace Gentlemen
             services.AddCors();
 
             services.AddDbContext<GentlemenContext>(options =>
-                options.UseSqlite(DEFAULT_DATABASE_CONNECTIONSTRING));
+                options.UseSqlite(_config.GetValue<string>("ASPNETCORE_Gentlemen_ConnectionString")));
 
             services.AddMvc(opt =>
             {
