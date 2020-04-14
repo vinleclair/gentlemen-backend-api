@@ -26,7 +26,7 @@ namespace Gentlemen.IntegrationTests
 
         public SliceFixture()
         {
-            var startup = new Startup();
+            var startup = new Startup(Config);
             var services = new ServiceCollection();
 
             DbContextOptionsBuilder builder = new DbContextOptionsBuilder();
