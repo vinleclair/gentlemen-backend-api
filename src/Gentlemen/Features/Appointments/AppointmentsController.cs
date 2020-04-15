@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,12 @@ namespace Gentlemen.Features.Appointments
         public async Task<AppointmentEnvelope> Create([FromBody]Create.Command command)
         {
             return await _mediator.Send(command);
+        }
+        
+        [HttpGet("upcoming/{BarberId}")]
+        public async Task<UpcomingAppointmentsEnvelope> getUpcomingAppointments(int BarberId)
+        {
+            return await _mediator.Send(new UpcomingAppointments.Query(BarberId));
         }
     }
 }
