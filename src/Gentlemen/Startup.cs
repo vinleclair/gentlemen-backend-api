@@ -38,6 +38,8 @@ namespace Gentlemen
 
         public void Configure(IApplicationBuilder app,  ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddSerilogLogging();
+
             //TODO bug: if I dont use this response is undefined, needs to be changed to something secure
             app.Use((context, next) =>
             {
@@ -45,7 +47,7 @@ namespace Gentlemen
                 return next.Invoke();
             });
             
-            loggerFactory.AddSerilogLogging();
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             
             app.UseMvc();
 
