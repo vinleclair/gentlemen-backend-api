@@ -42,10 +42,7 @@ namespace Gentlemen.Features.Appointments
 
                 var parsedUpcomingAppointments = parseUpcomingAppointments(upcomingAppointments);
 
-                return new UpcomingAppointmentsEnvelope(parsedUpcomingAppointments)
-                {
-                    UpcomingAppointments = parsedUpcomingAppointments
-                };
+                return new UpcomingAppointmentsEnvelope(parsedUpcomingAppointments);
             }
 
             private Dictionary<string, List<string>> parseUpcomingAppointments(List<DateTime> upcomingAppointments)
