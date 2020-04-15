@@ -6,6 +6,6 @@
 
         public string Name { get; set; }
 
-        public string PortraitPath { get; set; }
+        public string ImagePath { get; set; }
     }
 }
