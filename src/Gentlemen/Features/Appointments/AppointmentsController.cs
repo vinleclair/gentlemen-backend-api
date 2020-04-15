@@ -22,9 +22,9 @@ namespace Gentlemen.Features.Appointments
         }
         
         [HttpGet("upcoming/{BarberId}")]
-        public async Task<UpcomingAppointmentsEnvelope> getUpcomingAppointments(int BarberId)
+        public async Task<UpcomingAppointmentsEnvelope> GetUpcomingAppointments(int barberId)
         {
-            return await _mediator.Send(new UpcomingAppointments.Query(BarberId));
+            return await _mediator.Send(new UpcomingAppointments.Query(barberId));
         }
     }
 }
