@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using Bogus;
 using Gentlemen.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -9,22 +10,24 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Gentlemen.IntegrationTests
 {
-    public class SliceFixture : IDisposable
+    public class TestFixture : IDisposable
     {
         static readonly IConfiguration Config;
 
+        protected Faker faker = new Faker("en");
+        
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly ServiceProvider _provider;
         private readonly string DbName = Guid.NewGuid() + ".db";
 
-        static SliceFixture()
+        static TestFixture()
         {
             Config = new ConfigurationBuilder()
                .AddEnvironmentVariables()
                .Build();
         }
 
-        public SliceFixture()
+        public TestFixture()
         {
             var startup = new Startup(Config);
             var services = new ServiceCollection();

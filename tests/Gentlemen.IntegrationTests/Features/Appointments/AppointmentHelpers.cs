@@ -7,7 +7,7 @@ namespace Gentlemen.IntegrationTests.Features.Appointments
 {
     public static class AppointmentHelpers
     {
-        public static async Task<Domain.Appointment> CreateAppointment(SliceFixture fixture, Create.Command command)
+        public static async Task<Domain.Appointment> CreateAppointment(TestFixture fixture, Create.Command command)
         {
             var dbContext = fixture.GetDbContext();
 
