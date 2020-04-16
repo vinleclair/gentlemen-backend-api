@@ -2,11 +2,10 @@
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation;
 using Gentlemen.Domain;
 using Gentlemen.Infrastructure;
-using FluentValidation;
 using MediatR;
-
 
 namespace Gentlemen.Features.Appointments
 {
@@ -17,13 +16,13 @@ namespace Gentlemen.Features.Appointments
             public string ClientName { get; set; }
 
             public string ClientEmail { get; set; }
-            
+
             public int BarberId { get; set; }
-            
+
             public string Date { get; set; }
-            
+
             public string Time { get; set; }
-            
+
             public int ServiceId { get; set; }
         }
 
@@ -63,7 +62,7 @@ namespace Gentlemen.Features.Appointments
             }
 
             public async Task<AppointmentEnvelope> Handle(Command message, CancellationToken cancellationToken)
-            { 
+            {
                 var scheduledDate = DateTime.ParseExact(message.Appointment.Date + " " + message.Appointment.Time,
                     "yyyy-MM-dd HH:mm",
                     CultureInfo.InvariantCulture);
@@ -72,7 +71,7 @@ namespace Gentlemen.Features.Appointments
                 {
                     throw new Exception("Cannot schedule appointment in the past");
                 }
-                
+
                 var appointment = new Appointment()
                 {
                     ClientName = message.Appointment.ClientName,
@@ -82,9 +81,9 @@ namespace Gentlemen.Features.Appointments
                     ServiceId = message.Appointment.ServiceId,
                 };
                 await _context.Appointments.AddAsync(appointment, cancellationToken);
-                
+
                 await _context.SaveChangesAsync(cancellationToken);
-                
+
                 return new AppointmentEnvelope(appointment);
             }
         }

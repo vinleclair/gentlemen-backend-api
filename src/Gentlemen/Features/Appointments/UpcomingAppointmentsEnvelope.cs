@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Gentlemen.Domain;
 
 namespace Gentlemen.Features.Appointments
 {

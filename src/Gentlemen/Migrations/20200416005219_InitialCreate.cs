@@ -16,10 +16,7 @@ namespace Gentlemen.Migrations
                     Name = table.Column<string>(nullable: false),
                     ImagePath = table.Column<string>(nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Barbers", x => x.BarberId);
-                });
+                constraints: table => { table.PrimaryKey("PK_Barbers", x => x.BarberId); });
 
             migrationBuilder.CreateTable(
                 name: "Services",
@@ -31,10 +28,7 @@ namespace Gentlemen.Migrations
                     Price = table.Column<int>(nullable: false),
                     Duration = table.Column<int>(nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Services", x => x.ServiceId);
-                });
+                constraints: table => { table.PrimaryKey("PK_Services", x => x.ServiceId); });
 
             migrationBuilder.CreateTable(
                 name: "Appointments",
@@ -67,23 +61,23 @@ namespace Gentlemen.Migrations
 
             migrationBuilder.InsertData(
                 table: "Barbers",
-                columns: new[] { "BarberId", "ImagePath", "Name" },
-                values: new object[] { 1, "../assets/images/matthew.png", "Matthew" });
+                columns: new[] {"BarberId", "ImagePath", "Name"},
+                values: new object[] {1, "../assets/images/matthew.png", "Matthew"});
 
             migrationBuilder.InsertData(
                 table: "Barbers",
-                columns: new[] { "BarberId", "ImagePath", "Name" },
-                values: new object[] { 2, "../assets/images/fredrick.png", "Fredrick" });
+                columns: new[] {"BarberId", "ImagePath", "Name"},
+                values: new object[] {2, "../assets/images/fredrick.png", "Fredrick"});
 
             migrationBuilder.InsertData(
                 table: "Services",
-                columns: new[] { "ServiceId", "Duration", "Name", "Price" },
-                values: new object[] { 1, 30, "Haircut", 26 });
+                columns: new[] {"ServiceId", "Duration", "Name", "Price"},
+                values: new object[] {1, 30, "Haircut", 26});
 
             migrationBuilder.InsertData(
                 table: "Services",
-                columns: new[] { "ServiceId", "Duration", "Name", "Price" },
-                values: new object[] { 2, 30, "Shave", 20 });
+                columns: new[] {"ServiceId", "Duration", "Name", "Price"},
+                values: new object[] {2, 30, "Shave", 20});
 
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_ServiceId",
@@ -93,7 +87,7 @@ namespace Gentlemen.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_BarberId_ScheduledDate",
                 table: "Appointments",
-                columns: new[] { "BarberId", "ScheduledDate" },
+                columns: new[] {"BarberId", "ScheduledDate"},
                 unique: true);
         }
 

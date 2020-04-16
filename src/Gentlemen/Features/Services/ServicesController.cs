@@ -13,7 +13,7 @@ namespace Gentlemen.Features.Services
         {
             _mediator = mediator;
         }
-        
+
         [HttpGet]
         public async Task<ServicesEnvelope> Get()
         {

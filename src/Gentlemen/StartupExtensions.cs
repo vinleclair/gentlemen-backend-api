@@ -11,7 +11,9 @@ namespace Gentlemen
             var log = new LoggerConfiguration()
                 .MinimumLevel.Verbose()
                 .Enrich.FromLogContext()
-                .WriteTo.Console(outputTemplate: "{Timestamp:HH:mm:ss} [{Level}] {SourceContext} {Message}{NewLine}{Exception}", theme: SystemConsoleTheme.Grayscale)
+                .WriteTo.Console(
+                    outputTemplate: "{Timestamp:HH:mm:ss} [{Level}] {SourceContext} {Message}{NewLine}{Exception}",
+                    theme: SystemConsoleTheme.Grayscale)
                 .CreateLogger();
 
             loggerFactory.AddSerilog(log);

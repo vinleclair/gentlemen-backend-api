@@ -25,20 +25,14 @@ namespace Gentlemen
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
             services.AddCors();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); 
-            services.AddDbContext<GentlemenContext>(config =>
-            {
-                config.UseSqlite("DataSource=gentlemen.db");
-            });
-            services.AddMvc(opt =>
-            {
-                opt.EnableEndpointRouting = false;
-            })
-            .AddJsonOptions(opt => { opt.JsonSerializerOptions.IgnoreNullValues = true; })
-            .AddFluentValidation(cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup>(); });
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddDbContext<GentlemenContext>(config => { config.UseSqlite("DataSource=gentlemen.db"); });
+            services.AddMvc(opt => { opt.EnableEndpointRouting = false; })
+                .AddJsonOptions(opt => { opt.JsonSerializerOptions.IgnoreNullValues = true; })
+                .AddFluentValidation(cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup>(); });
         }
 
-        public void Configure(IApplicationBuilder app,  ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
             //TODO bug: if I dont use this response is undefined, needs to be changed to something secure
             app.Use((context, next) =>
@@ -49,12 +43,12 @@ namespace Gentlemen
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseMvc();
             app.UseCors(builder =>
-                    builder
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .WithOrigins("http://localhost:8080"));
+                builder
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .WithOrigins("http://localhost:8080"));
             app.ApplicationServices.GetRequiredService<GentlemenContext>().Database.EnsureCreated();
-            
+
             loggerFactory.AddSerilogLogging();
         }
     }

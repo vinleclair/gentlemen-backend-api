@@ -17,7 +17,7 @@ namespace Gentlemen.Features.Appointments
             {
                 BarberId = barberId;
             }
-            
+
             public int BarberId { get; }
         }
 
@@ -65,9 +65,9 @@ namespace Gentlemen.Features.Appointments
                         parsedUpcomingAppointments.Add(date, new List<string> {time});
                     }
                 });
-                
-                return parsedUpcomingAppointments; 
-            } 
-        } 
-    } 
+
+                return parsedUpcomingAppointments;
+            }
+        }
+    }
 }

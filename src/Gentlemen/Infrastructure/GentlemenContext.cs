@@ -6,16 +6,16 @@ namespace Gentlemen.Infrastructure
 {
     public class GentlemenContext : DbContext
     {
-        public DbSet<Appointment> Appointments { get; set; }
-        public DbSet<Barber> Barbers { get; set; }
-        public DbSet<Service> Services { get; set; }
-
         public GentlemenContext(DbContextOptions<GentlemenContext> options)
             : base(options)
         {
         }
+
+        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Barber> Barbers { get; set; }
+        public DbSet<Service> Services { get; set; }
     }
-    
+
     public class GentlemenContextFactory : IDesignTimeDbContextFactory<GentlemenContext>
     {
         // Used only for EF .NET Core CLI tools (update database/migrations etc.)

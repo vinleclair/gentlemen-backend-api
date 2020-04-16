@@ -15,11 +15,11 @@ namespace Gentlemen.Features.Appointments
         }
 
         [HttpPost]
-        public async Task<AppointmentEnvelope> Create([FromBody]Create.Command command)
+        public async Task<AppointmentEnvelope> Create([FromBody] Create.Command command)
         {
             return await _mediator.Send(command);
         }
-        
+
         [HttpGet("upcoming/{BarberId}")]
         public async Task<UpcomingAppointmentsEnvelope> GetUpcomingAppointments(int barberId)
         {

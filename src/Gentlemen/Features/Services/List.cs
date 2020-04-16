@@ -10,8 +10,7 @@ namespace Gentlemen.Features.Services
     public class List
     {
         public class Query : IRequest<ServicesEnvelope>
-        {
-        }
+        {}
 
         public class QueryHandler : IRequestHandler<Query, ServicesEnvelope>
         {
@@ -25,7 +24,7 @@ namespace Gentlemen.Features.Services
             public async Task<ServicesEnvelope> Handle(Query message, CancellationToken cancellationToken)
             {
                 var services = await _context.Services.OrderBy(x => x.Name).ToListAsync(cancellationToken);
-                
+
                 return new ServicesEnvelope()
                 {
                     Services = services.ToList()

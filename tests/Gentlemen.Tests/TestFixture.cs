@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using System.Threading.Tasks;
 using Bogus;
 using Gentlemen.Domain;
@@ -15,11 +14,11 @@ namespace Gentlemen.Tests
     public class TestFixture : IDisposable
     {
         static readonly IConfiguration Config;
-
-        protected Faker faker = new Faker("en");
+        private readonly ServiceProvider _provider;
 
         private readonly IServiceScopeFactory _scopeFactory;
-        private readonly ServiceProvider _provider;
+
+        protected Faker faker = new Faker("en");
 
         static TestFixture()
         {
@@ -46,6 +45,11 @@ namespace Gentlemen.Tests
             _scopeFactory = _provider.GetService<IServiceScopeFactory>();
         }
 
+        public void Dispose()
+        {
+            GetDbContext().Database.EnsureDeleted();
+        }
+
         public GentlemenContext GetDbContext()
         {
             return _provider.GetRequiredService<GentlemenContext>();
@@ -58,11 +62,6 @@ namespace Gentlemen.Tests
             GetDbContext().Barbers.Add(new Barber {Name = "John Doe", ImagePath = "john_doe.png"});
             GetDbContext().Services.Add(new Service {Name = "Haircut", Duration = 30, Price = 26});
             GetDbContext().SaveChanges();
-        }
-
-        public void Dispose()
-        {
-            GetDbContext().Database.EnsureDeleted();
         }
 
         public async Task ExecuteScopeAsync(Func<IServiceProvider, Task> action)

@@ -9,9 +9,9 @@ namespace Gentlemen.Infrastructure
 {
     public class ErrorHandlingMiddleware
     {
-        private readonly RequestDelegate _next;
-        private readonly ILogger<ErrorHandlingMiddleware> _logger;
         private const string InternalServerError = nameof(InternalServerError);
+        private readonly ILogger<ErrorHandlingMiddleware> _logger;
+        private readonly RequestDelegate _next;
 
         public ErrorHandlingMiddleware(
             RequestDelegate next,
@@ -38,9 +38,9 @@ namespace Gentlemen.Infrastructure
             Exception exception,
             ILogger logger)
         {
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
             logger.LogError(exception, exception.Message);
-            
+
             var result = JsonConvert.SerializeObject(new
             {
                 errors = InternalServerError
