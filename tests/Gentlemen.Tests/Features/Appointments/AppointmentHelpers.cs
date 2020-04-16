@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,7 +29,8 @@ namespace Gentlemen.Tests.Features.Appointments
             var dbContext = fixture.GetDbContext();
 
             var upcomingAppointmentsQueryHandler = new UpcomingAppointments.QueryHandler(dbContext);
-            var fetchedUpcomingAppointments = await upcomingAppointmentsQueryHandler.Handle(new UpcomingAppointments.Query(barberId),
+            var fetchedUpcomingAppointments = await upcomingAppointmentsQueryHandler.Handle(
+                new UpcomingAppointments.Query(barberId),
                 new CancellationToken());
 
             return fetchedUpcomingAppointments;

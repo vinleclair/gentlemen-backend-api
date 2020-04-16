@@ -41,9 +41,9 @@ namespace Gentlemen.Tests
             startup.ConfigureServices(services);
 
             _provider = services.BuildServiceProvider();
-            
+
             DatabaseFixture();
-            
+
             _scopeFactory = _provider.GetService<IServiceScopeFactory>();
         }
 

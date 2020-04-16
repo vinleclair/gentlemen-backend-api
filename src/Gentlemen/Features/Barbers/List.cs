@@ -10,7 +10,8 @@ namespace Gentlemen.Features.Barbers
     public class List
     {
         public class Query : IRequest<BarbersEnvelope>
-        {}
+        {
+        }
 
         public class QueryHandler : IRequestHandler<Query, BarbersEnvelope>
         {

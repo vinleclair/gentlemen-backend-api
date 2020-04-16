@@ -10,7 +10,8 @@ namespace Gentlemen.Features.Services
     public class List
     {
         public class Query : IRequest<ServicesEnvelope>
-        {}
+        {
+        }
 
         public class QueryHandler : IRequestHandler<Query, ServicesEnvelope>
         {

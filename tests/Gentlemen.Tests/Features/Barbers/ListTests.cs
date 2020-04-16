@@ -1,7 +1,4 @@
-using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
-using Gentlemen.Features.Appointments;
 using Xunit;
 
 namespace Gentlemen.Tests.Features.Barbers
