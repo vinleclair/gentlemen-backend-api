@@ -61,7 +61,7 @@ namespace Gentlemen.Tests
         {
             // TODO Refactor into factory pattern
             GetDbContext().Database.EnsureCreated();
-            GetDbContext().Barbers.Add(new Barber {Name = "John Doe", ImagePath = "john_doe.png"});
+            GetDbContext().Barbers.Add(new Barber {Name = "John Doe", ImagePath = "/img/john_doe.png"});
             GetDbContext().Services.Add(new Service {Name = "Haircut", Duration = 30, Price = 26});
             GetDbContext().SaveChanges();
         }

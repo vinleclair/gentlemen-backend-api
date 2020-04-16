@@ -62,12 +62,12 @@ namespace Gentlemen.Migrations
             migrationBuilder.InsertData(
                 table: "Barbers",
                 columns: new[] {"BarberId", "ImagePath", "Name"},
-                values: new object[] {1, "../assets/images/matthew.png", "Matthew"});
+                values: new object[] {1, "/img/matthew.png", "Matthew"});
 
             migrationBuilder.InsertData(
                 table: "Barbers",
                 columns: new[] {"BarberId", "ImagePath", "Name"},
-                values: new object[] {2, "../assets/images/fredrick.png", "Fredrick"});
+                values: new object[] {2, "/img/fredrick.png", "Fredrick"});
 
             migrationBuilder.InsertData(
                 table: "Services",
