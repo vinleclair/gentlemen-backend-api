@@ -6,6 +6,7 @@
         <UserSecretsId>de2fb370-3c79-4d64-8b91-8136f37e5e7f</UserSecretsId>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="EntityFramework" Version="6.4.0" />
         <PackageReference Include="FluentValidation" Version="8.6.2" />
         <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
         <PackageReference Include="MediatR" Version="8.0.1" />
