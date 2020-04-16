@@ -30,11 +30,10 @@ namespace Gentlemen.Tests.Features.Appointments
             var dbContext = fixture.GetDbContext();
 
             var upcomingAppointmentsQueryHandler = new UpcomingAppointments.QueryHandler(dbContext);
-            var fetched = await upcomingAppointmentsQueryHandler.Handle(new UpcomingAppointments.Query(barberId),
+            var fetchedUpcomingAppointments = await upcomingAppointmentsQueryHandler.Handle(new UpcomingAppointments.Query(barberId),
                 new CancellationToken());
 
-            Console.Write(fetched);
-            return fetched;
+            return fetchedUpcomingAppointments;
         }
     }
 }

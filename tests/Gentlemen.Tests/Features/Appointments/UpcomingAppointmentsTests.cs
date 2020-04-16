@@ -13,9 +13,9 @@ namespace Gentlemen.Tests.Features.Appointments
         [Fact]
         public async Task Expect_Fetch_Empty_Upcoming_Appointments()
         {
-            var upcomingAppointments = await AppointmentHelpers.FetchUpcomingAppointments(this, 1);
+            var upcomingAppointmentsEnvelope = await AppointmentHelpers.FetchUpcomingAppointments(this, 1);
 
-            Assert.Empty(upcomingAppointments.UpcomingAppointments);
+            Assert.Empty(upcomingAppointmentsEnvelope.UpcomingAppointments);
         }
 
         [Fact]
@@ -39,9 +39,9 @@ namespace Gentlemen.Tests.Features.Appointments
                 await AppointmentHelpers.CreateAppointment(this, command);
             }
 
-            var upcomingAppointments = await AppointmentHelpers.FetchUpcomingAppointments(this, 1);
+            var upcomingAppointmentsEnvelope = await AppointmentHelpers.FetchUpcomingAppointments(this, 1);
 
-            Assert.Equal(Count, upcomingAppointments.UpcomingAppointments.Values.Sum(list => list.Count));
+            Assert.Equal(Count, upcomingAppointmentsEnvelope.UpcomingAppointments.Values.Sum(list => list.Count));
         }
 
         [Fact]
@@ -62,9 +62,9 @@ namespace Gentlemen.Tests.Features.Appointments
 
             await AppointmentHelpers.CreateAppointment(this, command);
 
-            var upcomingAppointments = await AppointmentHelpers.FetchUpcomingAppointments(this, 1);
+            var upcomingAppointmentsEnvelope = await AppointmentHelpers.FetchUpcomingAppointments(this, 1);
 
-            Assert.Single(upcomingAppointments.UpcomingAppointments);
+            Assert.Single(upcomingAppointmentsEnvelope.UpcomingAppointments);
         }
     }
 }
