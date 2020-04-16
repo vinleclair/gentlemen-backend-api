@@ -10,7 +10,7 @@ namespace Gentlemen.Tests.Features.Appointments
     public class CreateTests : TestFixture
     {
         [Fact]
-        public async Task Expect_Create_Article()
+        public async Task Expect_Create_Appointment()
         {
             var command = new Create.Command()
             {
@@ -44,10 +44,10 @@ namespace Gentlemen.Tests.Features.Appointments
                 {
                     ClientName = faker.Person.FullName,
                     ClientEmail = faker.Internet.Email(),
-                    BarberId = 99,
+                    BarberId = 999,
                     Date = faker.Date.Future().ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
                     Time = faker.Date.Future().ToString("HH:mm", CultureInfo.InvariantCulture),
-                    ServiceId = 99
+                    ServiceId = 999
                 }
             };
             
@@ -64,14 +64,33 @@ namespace Gentlemen.Tests.Features.Appointments
                     ClientName = faker.Person.FullName,
                     ClientEmail = faker.Internet.Email(),
                     BarberId = 1,
-                    Date = faker.Date.Recent().ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
-                    Time = faker.Date.Recent().ToString("HH:mm", CultureInfo.InvariantCulture),
+                    Date = faker.Date.Past().ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
+                    Time = faker.Date.Past().ToString("HH:mm", CultureInfo.InvariantCulture),
                     ServiceId = 1
                 }
             };
             
             await Assert.ThrowsAsync<Exception>(() => AppointmentHelpers.CreateAppointment(this, command));
         }
+        
+        [Fact]
+        public async Task Expect_Invalid_Date_Format_Exception_Thrown()
+        {
+            var command = new Create.Command()
+            {
+                Appointment = new Create.AppointmentData()
+                {
+                    ClientName = faker.Person.FullName,
+                    ClientEmail = faker.Internet.Email(),
+                    BarberId = 1,
+                    Date = "252-20-20",
+                    Time = "2014144:2",
+                    ServiceId = 1
+                }
+            };
+            
+            await Assert.ThrowsAsync<FormatException>(() => AppointmentHelpers.CreateAppointment(this, command));
 
+        }
     }
 }

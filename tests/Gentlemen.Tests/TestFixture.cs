@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Bogus;
 using Gentlemen.Domain;
@@ -16,15 +17,15 @@ namespace Gentlemen.Tests
         static readonly IConfiguration Config;
 
         protected Faker faker = new Faker("en");
-        
+
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly ServiceProvider _provider;
 
         static TestFixture()
         {
             Config = new ConfigurationBuilder()
-               .AddEnvironmentVariables()
-               .Build();
+                .AddEnvironmentVariables()
+                .Build();
         }
 
         public TestFixture()
@@ -33,9 +34,9 @@ namespace Gentlemen.Tests
             var services = new ServiceCollection();
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
-            
+
             var options = new DbContextOptionsBuilder<GentlemenContext>().UseSqlite(connection).Options;
-            
+
             services.AddSingleton(new GentlemenContext(options));
 
             startup.ConfigureServices(services);
@@ -52,11 +53,13 @@ namespace Gentlemen.Tests
 
         public void DatabaseFixture()
         {
+            // TODO Refactor into factory pattern
             GetDbContext().Database.EnsureCreated();
-            GetDbContext().Barbers.Add(new Barber { Name = "John Doe", ImagePath = "john_doe.png" });
-            GetDbContext().Services.Add(new Service { Name = "Haircut", Duration = 30, Price = 26 });
+            GetDbContext().Barbers.Add(new Barber {Name = "John Doe", ImagePath = "john_doe.png"});
+            GetDbContext().Services.Add(new Service {Name = "Haircut", Duration = 30, Price = 26});
             GetDbContext().SaveChanges();
         }
+
         public void Dispose()
         {
             GetDbContext().Database.EnsureDeleted();
@@ -116,6 +119,7 @@ namespace Gentlemen.Tests
                 {
                     db.Add(entity);
                 }
+
                 return db.SaveChangesAsync();
             });
         }

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,17 @@ namespace Gentlemen.Tests.Features.Appointments
                 .SingleOrDefaultAsync());
 
             return dbAppointment;
+        }
+
+        public static async Task<UpcomingAppointmentsEnvelope> FetchUpcomingAppointments(TestFixture fixture, int barberId)
+        {
+            var dbContext = fixture.GetDbContext();
+            
+            var upcomingAppointmentsQueryHandler = new UpcomingAppointments.QueryHandler(dbContext);
+            var fetched = await upcomingAppointmentsQueryHandler.Handle(new UpcomingAppointments.Query(barberId), new System.Threading.CancellationToken());
+
+            Console.Write(fetched);
+            return fetched;
         }
     }
 }
