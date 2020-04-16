@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using Gentlemen.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,9 +25,10 @@ namespace Gentlemen
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
             services.AddCors();
-            services.AddDbContext<GentlemenContext>(opt =>
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); 
+            services.AddDbContext<GentlemenContext>(config =>
             {
-                opt.UseSqlite("DataSource=gentlemen.db");
+                config.UseSqlite("DataSource=gentlemen.db");
             });
             services.AddMvc(opt =>
             {

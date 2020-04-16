@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using Bogus;
 using Gentlemen.Domain;
@@ -35,9 +34,9 @@ namespace Gentlemen.Tests
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
             
-            var option = new DbContextOptionsBuilder<GentlemenContext>().UseSqlite(connection).Options;
+            var options = new DbContextOptionsBuilder<GentlemenContext>().UseSqlite(connection).Options;
             
-            services.AddSingleton(new GentlemenContext(option));
+            services.AddSingleton(new GentlemenContext(options));
 
             startup.ConfigureServices(services);
 

@@ -1,5 +1,7 @@
-﻿﻿using Gentlemen.Domain;
+﻿using System.Data.Entity.Infrastructure;
+using Gentlemen.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace Gentlemen.Infrastructure
 {
@@ -9,14 +11,21 @@ namespace Gentlemen.Infrastructure
         public DbSet<Barber> Barbers { get; set; }
         public DbSet<Service> Services { get; set; }
 
-        public GentlemenContext()
-        {
-            // Parameterless constructor needed to run migrations
-        }
-        
-        public GentlemenContext(DbContextOptions options)
+        public GentlemenContext(DbContextOptions<GentlemenContext> options)
             : base(options)
         {
+        }
+    }
+    
+    public class GentlemenContextFactory : IDesignTimeDbContextFactory<GentlemenContext>
+    {
+        // Used only for EF .NET Core CLI tools (update database/migrations etc.)
+        public GentlemenContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<GentlemenContext>();
+            optionsBuilder.UseSqlite("Data Source=gentlemen.db");
+
+            return new GentlemenContext(optionsBuilder.Options);
         }
     }
 }
