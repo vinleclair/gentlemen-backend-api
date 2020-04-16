@@ -13,8 +13,8 @@ namespace Gentlemen.Migrations
                 {
                     BarberId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true),
-                    ImagePath = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: false),
+                    ImagePath = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,7 +27,7 @@ namespace Gentlemen.Migrations
                 {
                     ServiceId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
                     Price = table.Column<int>(nullable: false),
                     Duration = table.Column<int>(nullable: false)
                 },
@@ -42,11 +42,11 @@ namespace Gentlemen.Migrations
                 {
                     AppointmentId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ClientName = table.Column<string>(nullable: true),
-                    ClientEmail = table.Column<string>(nullable: true),
+                    ClientName = table.Column<string>(nullable: false),
+                    ClientEmail = table.Column<string>(nullable: false),
                     ScheduledDate = table.Column<DateTime>(nullable: false),
-                    ServiceId = table.Column<int>(nullable: false),
-                    BarberId = table.Column<int>(nullable: false)
+                    BarberId = table.Column<int>(nullable: false),
+                    ServiceId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -57,17 +57,23 @@ namespace Gentlemen.Migrations
                         principalTable: "Barbers",
                         principalColumn: "BarberId",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
+                        principalColumn: "ServiceId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "Barbers",
                 columns: new[] { "BarberId", "ImagePath", "Name" },
-                values: new object[] { 1, "matthew.png", "Matthew" });
+                values: new object[] { 1, "../assets/images/matthew.png", "Matthew" });
 
             migrationBuilder.InsertData(
                 table: "Barbers",
                 columns: new[] { "BarberId", "ImagePath", "Name" },
-                values: new object[] { 2, "fredrick.png", "Fredrick" });
+                values: new object[] { 2, "../assets/images/fredrick.png", "Fredrick" });
 
             migrationBuilder.InsertData(
                 table: "Services",
@@ -80,9 +86,15 @@ namespace Gentlemen.Migrations
                 values: new object[] { 2, 30, "Shave", 20 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointments_BarberId",
+                name: "IX_Appointments_ServiceId",
                 table: "Appointments",
-                column: "BarberId");
+                column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_BarberId_ScheduledDate",
+                table: "Appointments",
+                columns: new[] { "BarberId", "ScheduledDate" },
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -91,10 +103,10 @@ namespace Gentlemen.Migrations
                 name: "Appointments");
 
             migrationBuilder.DropTable(
-                name: "Services");
+                name: "Barbers");
 
             migrationBuilder.DropTable(
-                name: "Barbers");
+                name: "Services");
         }
     }
 }

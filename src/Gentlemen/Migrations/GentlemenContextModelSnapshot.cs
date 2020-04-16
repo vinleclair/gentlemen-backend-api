@@ -26,9 +26,11 @@ namespace Gentlemen.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ClientEmail")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ClientName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("ScheduledDate")
@@ -39,7 +41,10 @@ namespace Gentlemen.Migrations
 
                     b.HasKey("AppointmentId");
 
-                    b.HasIndex("BarberId");
+                    b.HasIndex("ServiceId");
+
+                    b.HasIndex("BarberId", "ScheduledDate")
+                        .IsUnique();
 
                     b.ToTable("Appointments");
                 });
@@ -51,9 +56,11 @@ namespace Gentlemen.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ImagePath")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("BarberId");
@@ -64,13 +71,13 @@ namespace Gentlemen.Migrations
                         new
                         {
                             BarberId = 1,
-                            ImagePath = "matthew.png",
+                            ImagePath = "../assets/images/matthew.png",
                             Name = "Matthew"
                         },
                         new
                         {
                             BarberId = 2,
-                            ImagePath = "fredrick.png",
+                            ImagePath = "../assets/images/fredrick.png",
                             Name = "Fredrick"
                         });
                 });
@@ -85,6 +92,7 @@ namespace Gentlemen.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Price")
@@ -116,6 +124,12 @@ namespace Gentlemen.Migrations
                     b.HasOne("Gentlemen.Domain.Barber", "Barber")
                         .WithMany("Appointments")
                         .HasForeignKey("BarberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Gentlemen.Domain.Service", "Service")
+                        .WithMany("Appointments")
+                        .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
