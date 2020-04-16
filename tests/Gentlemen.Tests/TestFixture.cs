@@ -1,14 +1,16 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Bogus;
+using Gentlemen.Domain;
 using Gentlemen.Infrastructure;
 using MediatR;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Gentlemen.IntegrationTests
+namespace Gentlemen.Tests
 {
     public class TestFixture : IDisposable
     {
@@ -18,7 +20,6 @@ namespace Gentlemen.IntegrationTests
         
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly ServiceProvider _provider;
-        private readonly string DbName = Guid.NewGuid() + ".db";
 
         static TestFixture()
         {
@@ -31,16 +32,17 @@ namespace Gentlemen.IntegrationTests
         {
             var startup = new Startup(Config);
             var services = new ServiceCollection();
-
-            DbContextOptionsBuilder builder = new DbContextOptionsBuilder();
-            builder.UseInMemoryDatabase(DbName);
-            services.AddSingleton(new GentlemenContext(builder.Options));
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+            
+            var option = new DbContextOptionsBuilder<GentlemenContext>().UseSqlite(connection).Options;
+            
+            services.AddSingleton(new GentlemenContext(option));
 
             startup.ConfigureServices(services);
 
             _provider = services.BuildServiceProvider();
-
-            GetDbContext().Database.EnsureCreated();
+            DatabaseFixture();
             _scopeFactory = _provider.GetService<IServiceScopeFactory>();
         }
 
@@ -49,9 +51,16 @@ namespace Gentlemen.IntegrationTests
             return _provider.GetRequiredService<GentlemenContext>();
         }
 
+        public void DatabaseFixture()
+        {
+            GetDbContext().Database.EnsureCreated();
+            GetDbContext().Barbers.Add(new Barber { Name = "John Doe", ImagePath = "john_doe.png" });
+            GetDbContext().Services.Add(new Service { Name = "Haircut", Duration = 30, Price = 26 });
+            GetDbContext().SaveChanges();
+        }
         public void Dispose()
         {
-            File.Delete(DbName);
+            GetDbContext().Database.EnsureDeleted();
         }
 
         public async Task ExecuteScopeAsync(Func<IServiceProvider, Task> action)
@@ -73,7 +82,7 @@ namespace Gentlemen.IntegrationTests
         public Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> request)
         {
             return ExecuteScopeAsync(sp =>
-            { 
+            {
                 var mediator = sp.GetService<IMediator>();
 
                 return mediator.Send(request);

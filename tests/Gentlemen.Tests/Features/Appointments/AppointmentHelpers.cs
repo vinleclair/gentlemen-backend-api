@@ -1,9 +1,10 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Gentlemen.Features.Appointments;
+using Gentlemen.Tests;
 
-namespace Gentlemen.IntegrationTests.Features.Appointments
+namespace Gentlemen.Tests.Features.Appointments
 {
     public static class AppointmentHelpers
     {
