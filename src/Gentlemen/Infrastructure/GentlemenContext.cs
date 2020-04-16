@@ -11,5 +11,6 @@ namespace Gentlemen.Infrastructure
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
             => options.UseSqlite("DataSource=gentlemen.db");
+        
     }
 }

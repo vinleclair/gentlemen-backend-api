@@ -11,8 +11,7 @@ namespace Gentlemen.Domain
         public string ClientName { get; set; }
         [Required]
         public string ClientEmail { get; set; }
-        [Required] 
-        [Index("UX_Appointments_ScheduledDate_BarberId", IsUnique = true)]
+        [Required]
         public DateTime ScheduledDate { get; set; }
         
         [Required]
