@@ -11,6 +11,7 @@ namespace Gentlemen.Infrastructure
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<ErrorHandlingMiddleware> _logger;
+        private const string InternalServerError = nameof(InternalServerError);
 
         public ErrorHandlingMiddleware(
             RequestDelegate next,
@@ -42,7 +43,7 @@ namespace Gentlemen.Infrastructure
             
             var result = JsonConvert.SerializeObject(new
             {
-                errors = exception.Message
+                errors = InternalServerError
             });
 
             context.Response.ContentType = "application/json";
