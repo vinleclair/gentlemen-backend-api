@@ -9,8 +9,6 @@ namespace Gentlemen.Infrastructure
 {
     public class ErrorHandlingMiddleware
     {
-        private const string InternalServerError = nameof(InternalServerError);
-        
         private readonly RequestDelegate _next;
         private readonly ILogger<ErrorHandlingMiddleware> _logger;
 
@@ -40,10 +38,11 @@ namespace Gentlemen.Infrastructure
             ILogger logger)
         {
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            logger.LogError(exception, "Unhandled Exception");
+            logger.LogError(exception, exception.Message);
+            
             var result = JsonConvert.SerializeObject(new
             {
-                errors = InternalServerError
+                errors = exception.Message
             });
 
             context.Response.ContentType = "application/json";

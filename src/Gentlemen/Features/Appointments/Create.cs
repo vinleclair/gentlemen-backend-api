@@ -67,6 +67,11 @@ namespace Gentlemen.Features.Appointments
                 var scheduledDate = DateTime.ParseExact(message.Appointment.Date + " " + message.Appointment.Time,
                     "yyyy-MM-dd HH:mm",
                     CultureInfo.InvariantCulture);
+
+                if (scheduledDate < DateTime.Now)
+                {
+                    throw new Exception("Cannot schedule appointment in the past");
+                }
                 
                 var appointment = new Appointment()
                 {

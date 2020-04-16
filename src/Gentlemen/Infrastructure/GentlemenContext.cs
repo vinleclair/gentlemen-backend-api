@@ -1,4 +1,4 @@
-﻿using Gentlemen.Domain;
+﻿﻿using Gentlemen.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gentlemen.Infrastructure
@@ -9,8 +9,14 @@ namespace Gentlemen.Infrastructure
         public DbSet<Barber> Barbers { get; set; }
         public DbSet<Service> Services { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlite("DataSource=gentlemen.db");
+        public GentlemenContext()
+        {
+            // Parameterless constructor needed to run migrations
+        }
         
+        public GentlemenContext(DbContextOptions options)
+            : base(options)
+        {
+        }
     }
 }

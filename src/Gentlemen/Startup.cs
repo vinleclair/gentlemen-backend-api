@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using Gentlemen.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -23,7 +24,10 @@ namespace Gentlemen
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
             services.AddCors();
-            services.AddDbContext<GentlemenContext>();
+            services.AddDbContext<GentlemenContext>(opt =>
+            {
+                opt.UseSqlite("DataSource=gentlemen.db");
+            });
             services.AddMvc(opt =>
             {
                 opt.EnableEndpointRouting = false;
