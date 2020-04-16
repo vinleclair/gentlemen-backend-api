@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
+
 namespace Gentlemen
 {
     public static class StartupExtensions

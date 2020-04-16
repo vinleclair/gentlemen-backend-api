@@ -1,5 +1,4 @@
-﻿using System.Data.Entity.Infrastructure;
-using Gentlemen.Domain;
+﻿using Gentlemen.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
