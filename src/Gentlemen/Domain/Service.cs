@@ -9,6 +9,8 @@ namespace Gentlemen.Domain
         [Required] public string Name { get; set; }
         [Required] public int Price { get; set; }
         [Required] public int Duration { get; set; }
+        [Required] public string ImagePath { get; set; }
+
 
         public List<Appointment> Appointments { get; set; }
     }

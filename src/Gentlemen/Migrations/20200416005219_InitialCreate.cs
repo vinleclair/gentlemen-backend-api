@@ -26,7 +26,8 @@ namespace Gentlemen.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: false),
                     Price = table.Column<int>(nullable: false),
-                    Duration = table.Column<int>(nullable: false)
+                    Duration = table.Column<int>(nullable: false),
+                    ImagePath = table.Column<string>(nullable: false)
                 },
                 constraints: table => { table.PrimaryKey("PK_Services", x => x.ServiceId); });
 
@@ -71,13 +72,13 @@ namespace Gentlemen.Migrations
 
             migrationBuilder.InsertData(
                 table: "Services",
-                columns: new[] {"ServiceId", "Duration", "Name", "Price"},
-                values: new object[] {1, 30, "Haircut", 26});
+                columns: new[] {"ServiceId", "Duration", "Name", "Price", "ImagePath"},
+                values: new object[] {1, 30, "Haircut", 26, "/img/haircut.png"});
 
             migrationBuilder.InsertData(
                 table: "Services",
-                columns: new[] {"ServiceId", "Duration", "Name", "Price"},
-                values: new object[] {2, 30, "Shave", 20});
+                columns: new[] {"ServiceId", "Duration", "Name", "Price", "ImagePath"},
+                values: new object[] {2, 30, "Shave", 20, "img/shave.png"});
 
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_ServiceId",
