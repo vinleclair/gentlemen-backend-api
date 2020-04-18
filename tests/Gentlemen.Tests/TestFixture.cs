@@ -59,11 +59,8 @@ namespace Gentlemen.Tests
 
         public void DatabaseFixture()
         {
-            // TODO Refactor into factory pattern
-            GetDbContext().Database.EnsureCreated();
-            GetDbContext().Barbers.Add(new Barber {Name = "John Doe", ImagePath = "/img/john_doe.png"});
-            GetDbContext().Services.Add(new Service {Name = "Haircut", Duration = 30, Price = 26, ImagePath = "/img/haircut.png"});
-            GetDbContext().SaveChanges();
+            // TODO Should use seeder instead of migration with hard-coded data
+            GetDbContext().Database.Migrate();
         }
 
         public async Task ExecuteScopeAsync(Func<IServiceProvider, Task> action)

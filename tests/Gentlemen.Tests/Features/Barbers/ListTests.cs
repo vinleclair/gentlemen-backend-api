@@ -6,11 +6,11 @@ namespace Gentlemen.Tests.Features.Barbers
     public class ListTests : TestFixture
     {
         [Fact]
-        public async Task Expect_List_Single_Barber()
+        public async Task Expect_List_Two_Barbers()
         {
             var barbersEnvelope = await BarberHelpers.ListBarbers(this);
 
-            Assert.Single(barbersEnvelope.Barbers);
+            Assert.Equal(2, barbersEnvelope.Barbers.Count);
         }
     }
 }
