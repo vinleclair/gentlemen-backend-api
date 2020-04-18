@@ -1,0 +1,1 @@
+web: cd $HOME/heroku_output/Gentlemen && dotnet ./Gentlemen.dll --server.urls http://+:$PORT ${CORE_ENVIRONMENT}
