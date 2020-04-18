@@ -47,7 +47,7 @@ namespace Gentlemen
                 builder
                     .AllowAnyHeader()
                     .AllowAnyMethod()
-                    .WithOrigins("http://localhost:8080"));
+                    .AllowAnyOrigin());
             
             app.ApplicationServices.GetRequiredService<GentlemenContext>().Database.Migrate();
 
