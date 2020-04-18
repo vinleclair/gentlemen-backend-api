@@ -48,7 +48,8 @@ namespace Gentlemen
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .WithOrigins("http://localhost:8080"));
-            app.ApplicationServices.GetRequiredService<GentlemenContext>().Database.EnsureCreated();
+            
+            app.ApplicationServices.GetRequiredService<GentlemenContext>().Database.Migrate();
 
             loggerFactory.AddSerilogLogging();
         }
