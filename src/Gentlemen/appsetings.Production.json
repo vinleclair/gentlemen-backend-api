@@ -1,5 +1,0 @@
-{
-  "ConnectionStrings": {
-    "GentlemenDatabase": "DataSource=gentlemen.db;Version=3;;Trusted_Connection=True;sslmode=Prefer;Trust Server Certificate=true;"
-  }
-}
