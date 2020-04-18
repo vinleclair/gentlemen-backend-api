@@ -15,7 +15,7 @@ namespace Gentlemen
             var host = new WebHostBuilder()
                 .UseConfiguration(config)
                 .UseKestrel()
-                .UseUrls("http://+:5000")
+                .UseUrls(args[0])
                 .UseStartup<Startup>()
                 .Build();
 

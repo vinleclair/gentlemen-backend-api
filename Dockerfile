@@ -19,4 +19,5 @@ RUN dotnet publish "./src/Gentlemen/Gentlemen.csproj" -c Release -o out --no-res
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1.3-alpine
 WORKDIR /aspnet-core
 COPY --from=build-env /aspnet-core/out .
+#ENTRYPOINT ["dotnet", "Gentlemen.dll"]
 CMD ASPNETCORE_URLS=http://*:$PORT dotnet Gentlemen.dll
