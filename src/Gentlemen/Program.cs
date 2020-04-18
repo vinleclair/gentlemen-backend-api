@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
@@ -12,10 +13,12 @@ namespace Gentlemen
                 .AddEnvironmentVariables()
                 .Build();
 
+            var port = Environment.GetEnvironmentVariable("PORT");
+            
             var host = new WebHostBuilder()
                 .UseConfiguration(config)
                 .UseKestrel()
-                .UseUrls(args[0])
+                .UseUrls("http://*:"+port)                
                 .UseStartup<Startup>()
                 .Build();
 
