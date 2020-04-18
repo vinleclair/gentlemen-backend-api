@@ -1,3 +1,4 @@
+using System.Configuration;
 using System.Reflection;
 using FluentValidation.AspNetCore;
 using Gentlemen.Infrastructure;
@@ -26,7 +27,7 @@ namespace Gentlemen
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
             services.AddCors();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddDbContext<GentlemenContext>(config => { config.UseSqlite("DataSource=gentlemen.db"); });
+            services.AddDbContext<GentlemenContext>(config => { config.UseSqlite(_config.GetConnectionString("GentlemenDatabase")); });
             services.AddMvc(opt => { opt.EnableEndpointRouting = false; })
                 .AddJsonOptions(opt => { opt.JsonSerializerOptions.IgnoreNullValues = true; })
                 .AddFluentValidation(cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup>(); });

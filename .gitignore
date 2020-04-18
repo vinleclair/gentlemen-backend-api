@@ -293,9 +293,3 @@ tools
 
 # SQLite DB file
 *.db
-
-# ignore appsettings
-**/appsettings.json
-**/appsettings.development.json
-**/appsettings.staging.json
-**/appsettings.production.json
