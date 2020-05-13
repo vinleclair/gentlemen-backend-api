@@ -12,13 +12,10 @@ namespace Gentlemen
                 .AddJsonFile("appsettings.json", false)
                 .AddEnvironmentVariables()
                 .Build();
-
-            var port = Environment.GetEnvironmentVariable("PORT");
             
             var host = new WebHostBuilder()
                 .UseConfiguration(config)
                 .UseKestrel()
-                .UseUrls("http://*:"+port)                
                 .UseStartup<Startup>()
                 .Build();
 
