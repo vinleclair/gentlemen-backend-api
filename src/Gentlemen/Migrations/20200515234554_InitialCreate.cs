@@ -16,7 +16,27 @@ namespace Gentlemen.Migrations
                     Name = table.Column<string>(nullable: false),
                     ImagePath = table.Column<string>(nullable: false)
                 },
-                constraints: table => { table.PrimaryKey("PK_Barbers", x => x.BarberId); });
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Barbers", x => x.BarberId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    CustomerId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: false),
+                    Hash = table.Column<byte[]>(nullable: false),
+                    Salt = table.Column<byte[]>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.CustomerId);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Services",
@@ -29,7 +49,10 @@ namespace Gentlemen.Migrations
                     Duration = table.Column<int>(nullable: false),
                     ImagePath = table.Column<string>(nullable: false)
                 },
-                constraints: table => { table.PrimaryKey("PK_Services", x => x.ServiceId); });
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Services", x => x.ServiceId);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Appointments",
@@ -62,40 +85,42 @@ namespace Gentlemen.Migrations
 
             migrationBuilder.InsertData(
                 table: "Barbers",
-                columns: new[] {"BarberId", "ImagePath", "Name"},
-                values: new object[] {1, "/img/matthew.png", "Matthew"});
+                columns: new[] { "BarberId", "ImagePath", "Name" },
+                values: new object[] { 1, "/img/matthew.png", "Matthew" });
 
             migrationBuilder.InsertData(
                 table: "Barbers",
-                columns: new[] {"BarberId", "ImagePath", "Name"},
-                values: new object[] {2, "/img/fredrick.png", "Fredrick"});
+                columns: new[] { "BarberId", "ImagePath", "Name" },
+                values: new object[] { 2, "/img/fredrick.png", "Fredrick" });
 
             migrationBuilder.InsertData(
                 table: "Services",
-                columns: new[] {"ServiceId", "Duration", "Name", "Price", "ImagePath"},
-                values: new object[] {1, 30, "Haircut", 26, "/img/haircut.png"});
+                columns: new[] { "ServiceId", "Duration", "ImagePath", "Name", "Price" },
+                values: new object[] { 1, 30, "/img/haircut.png", "Haircut", 26 });
 
             migrationBuilder.InsertData(
                 table: "Services",
-                columns: new[] {"ServiceId", "Duration", "Name", "Price", "ImagePath"},
-                values: new object[] {2, 30, "Shave", 20, "img/shave.png"});
+                columns: new[] { "ServiceId", "Duration", "ImagePath", "Name", "Price" },
+                values: new object[] { 2, 30, "/img/shave.png", "Shave", 20 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_BarberId",
+                table: "Appointments",
+                column: "BarberId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_ServiceId",
                 table: "Appointments",
                 column: "ServiceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Appointments_BarberId_ScheduledDate",
-                table: "Appointments",
-                columns: new[] {"BarberId", "ScheduledDate"},
-                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Appointments");
+
+            migrationBuilder.DropTable(
+                name: "Customers");
 
             migrationBuilder.DropTable(
                 name: "Barbers");

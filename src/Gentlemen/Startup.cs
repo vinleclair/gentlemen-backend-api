@@ -1,7 +1,9 @@
-using System.Configuration;
+using AutoMapper;
 using System.Reflection;
 using FluentValidation.AspNetCore;
 using Gentlemen.Infrastructure;
+using Gentlemen.Infrastructure.Errors;
+using Gentlemen.Infrastructure.Security;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -25,33 +27,38 @@ namespace Gentlemen
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
-            services.AddCors();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDbContext<GentlemenContext>(config => { config.UseSqlite(_config.GetConnectionString("GentlemenDatabase")); });
+            
+            services.AddCors();
             services.AddMvc(opt => { opt.EnableEndpointRouting = false; })
                 .AddJsonOptions(opt => { opt.JsonSerializerOptions.IgnoreNullValues = true; })
                 .AddFluentValidation(cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup>(); });
+            
+            services.AddAutoMapper(GetType().Assembly);
+            
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
+            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+            
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
-            //TODO bug: if I dont use this response is undefined, needs to be changed to something secure
-            app.Use((context, next) =>
-            {
-                context.Response.Headers["Access-Control-Allow-Origin"] = "*";
-                return next.Invoke();
-            });
+            loggerFactory.AddSerilogLogging();
+            
             app.UseMiddleware<ErrorHandlingMiddleware>();
-            app.UseMvc();
+            
             app.UseCors(builder =>
                 builder
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowAnyOrigin());
             
-            app.ApplicationServices.GetRequiredService<GentlemenContext>().Database.Migrate();
+            app.UseAuthentication();
+            
+            app.UseMvc();
 
-            loggerFactory.AddSerilogLogging();
+            app.ApplicationServices.GetRequiredService<GentlemenContext>().Database.Migrate();
         }
     }
 }

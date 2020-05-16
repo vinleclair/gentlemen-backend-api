@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gentlemen.Migrations
 {
     [DbContext(typeof(GentlemenContext))]
-    [Migration("20200416005219_InitialCreate")]
+    [Migration("20200515234554_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,10 +43,9 @@ namespace Gentlemen.Migrations
 
                     b.HasKey("AppointmentId");
 
-                    b.HasIndex("ServiceId");
+                    b.HasIndex("BarberId");
 
-                    b.HasIndex("BarberId", "ScheduledDate")
-                        .IsUnique();
+                    b.HasIndex("ServiceId");
 
                     b.ToTable("Appointments");
                 });
@@ -73,15 +72,44 @@ namespace Gentlemen.Migrations
                         new
                         {
                             BarberId = 1,
-                            ImagePath = "../assets/images/matthew.png",
+                            ImagePath = "/img/matthew.png",
                             Name = "Matthew"
                         },
                         new
                         {
                             BarberId = 2,
-                            ImagePath = "../assets/images/fredrick.png",
+                            ImagePath = "/img/fredrick.png",
                             Name = "Fredrick"
                         });
+                });
+
+            modelBuilder.Entity("Gentlemen.Domain.Customer", b =>
+                {
+                    b.Property<int>("CustomerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("Hash")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("Salt")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
+                    b.HasKey("CustomerId");
+
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("Gentlemen.Domain.Service", b =>
@@ -92,6 +120,10 @@ namespace Gentlemen.Migrations
 
                     b.Property<int>("Duration")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -109,6 +141,7 @@ namespace Gentlemen.Migrations
                         {
                             ServiceId = 1,
                             Duration = 30,
+                            ImagePath = "/img/haircut.png",
                             Name = "Haircut",
                             Price = 26
                         },
@@ -116,6 +149,7 @@ namespace Gentlemen.Migrations
                         {
                             ServiceId = 2,
                             Duration = 30,
+                            ImagePath = "/img/shave.png",
                             Name = "Shave",
                             Price = 20
                         });

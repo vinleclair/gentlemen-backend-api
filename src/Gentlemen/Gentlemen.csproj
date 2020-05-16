@@ -6,11 +6,14 @@
         <UserSecretsId>de2fb370-3c79-4d64-8b91-8136f37e5e7f</UserSecretsId>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="9.0.0" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
         <PackageReference Include="EntityFramework" Version="6.4.0" />
         <PackageReference Include="FluentValidation" Version="8.6.2" />
         <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
         <PackageReference Include="MediatR" Version="8.0.1" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.4" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.3" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.3" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.3" />

@@ -5,13 +5,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace Gentlemen.Infrastructure
+namespace Gentlemen.Infrastructure.Errors
 {
     public class ErrorHandlingMiddleware
     {
-        private const string InternalServerError = nameof(InternalServerError);
-        private readonly ILogger<ErrorHandlingMiddleware> _logger;
         private readonly RequestDelegate _next;
+        private readonly ILogger<ErrorHandlingMiddleware> _logger;
 
         public ErrorHandlingMiddleware(
             RequestDelegate next,
@@ -36,15 +35,28 @@ namespace Gentlemen.Infrastructure
         private static async Task HandleExceptionAsync(
             HttpContext context,
             Exception exception,
-            ILogger logger)
+            ILogger<ErrorHandlingMiddleware> logger
+            )
         {
-            context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
-            logger.LogError(exception, exception.Message);
-
-            var result = JsonConvert.SerializeObject(new
+            string result = null;
+            switch (exception)
             {
-                errors = InternalServerError
-            });
+                case RestException re:
+                    context.Response.StatusCode = (int)re.Code;
+                    result = JsonConvert.SerializeObject(new
+                    {
+                        errors = re.Errors
+                    });
+                    break;
+                default:
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    logger.LogError(exception, "Unhandled Exception");
+                     result = JsonConvert.SerializeObject(new
+                    {
+                        errors = Constants.InternalServerError
+                    });
+                    break;
+            }
 
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(result ?? "{}");
